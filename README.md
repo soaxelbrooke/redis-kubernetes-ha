@@ -43,4 +43,10 @@ repl_backlog_histlen:0
 
 Etc.
 
+# Evenly Distributing Redis and Sentinels
+
+If you are working with ephemeral instances like AWS spot instances or GCE preemptible instances, you may want to ensure that you have redis pods evenly spread across your instances.  Kubernetes DaemonSets are a good way to achieve this.  Check out `create-redis-daemon-set.sh`, the difference is only that the resources created are DaemonSets instead of ReplicationControllers, and that you don't specify scaling, since there is one pod per cluster node.
+
+# Credit
+
 This script brought to you by the great example in the [kubernetes repo](https://github.com/kubernetes/kubernetes/tree/master/examples/storage/redis).  I just added delays during the redis HA bootstrap.
