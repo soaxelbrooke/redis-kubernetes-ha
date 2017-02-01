@@ -8,22 +8,19 @@ kubectl create -f templates/redis-master.yaml
 echo "$(date) - Creating redis sentinel service..."
 kubectl create -f templates/redis-sentinel-service.yaml
 
-echo "$(date) - Sleeping 30 seconds while redis-master bootstraps..."
+echo "$(date) - Sleeping 60 seconds while redis-master bootstraps..."
 sleep 30
 
 # Create a replication controller for redis servers
 echo "$(date) - Creating redis replication controller..."
-kubectl create -f templates/redis-controller.yaml
+kubectl create -f templates/redis-daemon-set.yaml
 
 # Create a replication controller for redis sentinels
 echo "$(date) - Creating redis sentinel replication controller..."
-kubectl create -f templates/redis-sentinel-controller.yaml
+kubectl create -f templates/redis-sentinel-daemon-set.yaml
 
-kubectl scale rc redis --replicas 3
-kubectl scale rc redis-sentinel --replicas 3
-
-echo "$(date) - Sleeping 60 seconds while redis HA settles..."
-sleep 60
+echo "$(date) - Sleeping 45 seconds while redis HA settles..."
+sleep 45
 
 # Delete the original master pod
 echo "$(date) - Deleting bootstrap redis-master pod..."
